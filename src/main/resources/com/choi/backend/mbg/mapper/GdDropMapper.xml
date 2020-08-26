@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.choi.backend.mbg.mapper.GdDropMapper">
+  <resultMap id="BaseResultMap" type="com.choi.backend.mbg.model.GdDrop">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="drop_id" jdbcType="INTEGER" property="dropId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="item1" jdbcType="INTEGER" property="item1" />
+    <result column="item_value1" jdbcType="INTEGER" property="itemValue1" />
+    <result column="item2" jdbcType="INTEGER" property="item2" />
+    <result column="item_value2" jdbcType="INTEGER" property="itemValue2" />
+    <result column="item3" jdbcType="INTEGER" property="item3" />
+    <result column="item_value3" jdbcType="INTEGER" property="itemValue3" />
+    <result column="item4" jdbcType="INTEGER" property="item4" />
+    <result column="item_value4" jdbcType="INTEGER" property="itemValue4" />
+    <result column="item5" jdbcType="INTEGER" property="item5" />
+    <result column="item_value5" jdbcType="INTEGER" property="itemValue5" />
+    <result column="item6" jdbcType="INTEGER" property="item6" />
+    <result column="item_value6" jdbcType="INTEGER" property="itemValue6" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, drop_id, type, item1, item_value1, item2, item_value2, item3, item_value3, item4, 
+    item_value4, item5, item_value5, item6, item_value6
+  </sql>
+  <select id="selectByExample" parameterType="com.choi.backend.mbg.model.GdDropExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gd_drop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gd_drop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gd_drop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.choi.backend.mbg.model.GdDropExample">
+    delete from gd_drop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.choi.backend.mbg.model.GdDrop">
+    insert into gd_drop (id, drop_id, type, 
+      item1, item_value1, item2, 
+      item_value2, item3, item_value3, 
+      item4, item_value4, item5, 
+      item_value5, item6, item_value6
+      )
+    values (#{id,jdbcType=INTEGER}, #{dropId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{item1,jdbcType=INTEGER}, #{itemValue1,jdbcType=INTEGER}, #{item2,jdbcType=INTEGER}, 
+      #{itemValue2,jdbcType=INTEGER}, #{item3,jdbcType=INTEGER}, #{itemValue3,jdbcType=INTEGER}, 
+      #{item4,jdbcType=INTEGER}, #{itemValue4,jdbcType=INTEGER}, #{item5,jdbcType=INTEGER}, 
+      #{itemValue5,jdbcType=INTEGER}, #{item6,jdbcType=INTEGER}, #{itemValue6,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.choi.backend.mbg.model.GdDrop">
+    insert into gd_drop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dropId != null">
+        drop_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="item1 != null">
+        item1,
+      </if>
+      <if test="itemValue1 != null">
+        item_value1,
+      </if>
+      <if test="item2 != null">
+        item2,
+      </if>
+      <if test="itemValue2 != null">
+        item_value2,
+      </if>
+      <if test="item3 != null">
+        item3,
+      </if>
+      <if test="itemValue3 != null">
+        item_value3,
+      </if>
+      <if test="item4 != null">
+        item4,
+      </if>
+      <if test="itemValue4 != null">
+        item_value4,
+      </if>
+      <if test="item5 != null">
+        item5,
+      </if>
+      <if test="itemValue5 != null">
+        item_value5,
+      </if>
+      <if test="item6 != null">
+        item6,
+      </if>
+      <if test="itemValue6 != null">
+        item_value6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dropId != null">
+        #{dropId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="item1 != null">
+        #{item1,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue1 != null">
+        #{itemValue1,jdbcType=INTEGER},
+      </if>
+      <if test="item2 != null">
+        #{item2,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue2 != null">
+        #{itemValue2,jdbcType=INTEGER},
+      </if>
+      <if test="item3 != null">
+        #{item3,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue3 != null">
+        #{itemValue3,jdbcType=INTEGER},
+      </if>
+      <if test="item4 != null">
+        #{item4,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue4 != null">
+        #{itemValue4,jdbcType=INTEGER},
+      </if>
+      <if test="item5 != null">
+        #{item5,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue5 != null">
+        #{itemValue5,jdbcType=INTEGER},
+      </if>
+      <if test="item6 != null">
+        #{item6,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue6 != null">
+        #{itemValue6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.choi.backend.mbg.model.GdDropExample" resultType="java.lang.Long">
+    select count(*) from gd_drop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update gd_drop
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dropId != null">
+        drop_id = #{record.dropId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.item1 != null">
+        item1 = #{record.item1,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue1 != null">
+        item_value1 = #{record.itemValue1,jdbcType=INTEGER},
+      </if>
+      <if test="record.item2 != null">
+        item2 = #{record.item2,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue2 != null">
+        item_value2 = #{record.itemValue2,jdbcType=INTEGER},
+      </if>
+      <if test="record.item3 != null">
+        item3 = #{record.item3,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue3 != null">
+        item_value3 = #{record.itemValue3,jdbcType=INTEGER},
+      </if>
+      <if test="record.item4 != null">
+        item4 = #{record.item4,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue4 != null">
+        item_value4 = #{record.itemValue4,jdbcType=INTEGER},
+      </if>
+      <if test="record.item5 != null">
+        item5 = #{record.item5,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue5 != null">
+        item_value5 = #{record.itemValue5,jdbcType=INTEGER},
+      </if>
+      <if test="record.item6 != null">
+        item6 = #{record.item6,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemValue6 != null">
+        item_value6 = #{record.itemValue6,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update gd_drop
+    set id = #{record.id,jdbcType=INTEGER},
+      drop_id = #{record.dropId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      item1 = #{record.item1,jdbcType=INTEGER},
+      item_value1 = #{record.itemValue1,jdbcType=INTEGER},
+      item2 = #{record.item2,jdbcType=INTEGER},
+      item_value2 = #{record.itemValue2,jdbcType=INTEGER},
+      item3 = #{record.item3,jdbcType=INTEGER},
+      item_value3 = #{record.itemValue3,jdbcType=INTEGER},
+      item4 = #{record.item4,jdbcType=INTEGER},
+      item_value4 = #{record.itemValue4,jdbcType=INTEGER},
+      item5 = #{record.item5,jdbcType=INTEGER},
+      item_value5 = #{record.itemValue5,jdbcType=INTEGER},
+      item6 = #{record.item6,jdbcType=INTEGER},
+      item_value6 = #{record.itemValue6,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.choi.backend.mbg.model.GdDrop">
+    update gd_drop
+    <set>
+      <if test="dropId != null">
+        drop_id = #{dropId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="item1 != null">
+        item1 = #{item1,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue1 != null">
+        item_value1 = #{itemValue1,jdbcType=INTEGER},
+      </if>
+      <if test="item2 != null">
+        item2 = #{item2,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue2 != null">
+        item_value2 = #{itemValue2,jdbcType=INTEGER},
+      </if>
+      <if test="item3 != null">
+        item3 = #{item3,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue3 != null">
+        item_value3 = #{itemValue3,jdbcType=INTEGER},
+      </if>
+      <if test="item4 != null">
+        item4 = #{item4,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue4 != null">
+        item_value4 = #{itemValue4,jdbcType=INTEGER},
+      </if>
+      <if test="item5 != null">
+        item5 = #{item5,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue5 != null">
+        item_value5 = #{itemValue5,jdbcType=INTEGER},
+      </if>
+      <if test="item6 != null">
+        item6 = #{item6,jdbcType=INTEGER},
+      </if>
+      <if test="itemValue6 != null">
+        item_value6 = #{itemValue6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.choi.backend.mbg.model.GdDrop">
+    update gd_drop
+    set drop_id = #{dropId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      item1 = #{item1,jdbcType=INTEGER},
+      item_value1 = #{itemValue1,jdbcType=INTEGER},
+      item2 = #{item2,jdbcType=INTEGER},
+      item_value2 = #{itemValue2,jdbcType=INTEGER},
+      item3 = #{item3,jdbcType=INTEGER},
+      item_value3 = #{itemValue3,jdbcType=INTEGER},
+      item4 = #{item4,jdbcType=INTEGER},
+      item_value4 = #{itemValue4,jdbcType=INTEGER},
+      item5 = #{item5,jdbcType=INTEGER},
+      item_value5 = #{itemValue5,jdbcType=INTEGER},
+      item6 = #{item6,jdbcType=INTEGER},
+      item_value6 = #{itemValue6,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

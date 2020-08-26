@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.choi.backend.mbg.mapper.GdPlayerMapper">
+  <resultMap id="BaseResultMap" type="com.choi.backend.mbg.model.GdPlayer">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="player_id" jdbcType="INTEGER" property="playerId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="res_name" jdbcType="VARCHAR" property="resName" />
+    <result column="res_name_gun" jdbcType="VARCHAR" property="resNameGun" />
+    <result column="hp" jdbcType="INTEGER" property="hp" />
+    <result column="atk" jdbcType="INTEGER" property="atk" />
+    <result column="def" jdbcType="INTEGER" property="def" />
+    <result column="critical" jdbcType="INTEGER" property="critical" />
+    <result column="atk_speed" jdbcType="INTEGER" property="atkSpeed" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, player_id, name, type, res_name, res_name_gun, hp, atk, def, critical, atk_speed
+  </sql>
+  <select id="selectByExample" parameterType="com.choi.backend.mbg.model.GdPlayerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gd_player
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gd_player
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gd_player
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.choi.backend.mbg.model.GdPlayerExample">
+    delete from gd_player
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.choi.backend.mbg.model.GdPlayer">
+    insert into gd_player (id, player_id, name, 
+      type, res_name, res_name_gun, 
+      hp, atk, def, critical, 
+      atk_speed)
+    values (#{id,jdbcType=BIGINT}, #{playerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{resName,jdbcType=VARCHAR}, #{resNameGun,jdbcType=VARCHAR}, 
+      #{hp,jdbcType=INTEGER}, #{atk,jdbcType=INTEGER}, #{def,jdbcType=INTEGER}, #{critical,jdbcType=INTEGER}, 
+      #{atkSpeed,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.choi.backend.mbg.model.GdPlayer">
+    insert into gd_player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="resName != null">
+        res_name,
+      </if>
+      <if test="resNameGun != null">
+        res_name_gun,
+      </if>
+      <if test="hp != null">
+        hp,
+      </if>
+      <if test="atk != null">
+        atk,
+      </if>
+      <if test="def != null">
+        def,
+      </if>
+      <if test="critical != null">
+        critical,
+      </if>
+      <if test="atkSpeed != null">
+        atk_speed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="resName != null">
+        #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="resNameGun != null">
+        #{resNameGun,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null">
+        #{hp,jdbcType=INTEGER},
+      </if>
+      <if test="atk != null">
+        #{atk,jdbcType=INTEGER},
+      </if>
+      <if test="def != null">
+        #{def,jdbcType=INTEGER},
+      </if>
+      <if test="critical != null">
+        #{critical,jdbcType=INTEGER},
+      </if>
+      <if test="atkSpeed != null">
+        #{atkSpeed,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.choi.backend.mbg.model.GdPlayerExample" resultType="java.lang.Long">
+    select count(*) from gd_player
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update gd_player
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.playerId != null">
+        player_id = #{record.playerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.resName != null">
+        res_name = #{record.resName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resNameGun != null">
+        res_name_gun = #{record.resNameGun,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hp != null">
+        hp = #{record.hp,jdbcType=INTEGER},
+      </if>
+      <if test="record.atk != null">
+        atk = #{record.atk,jdbcType=INTEGER},
+      </if>
+      <if test="record.def != null">
+        def = #{record.def,jdbcType=INTEGER},
+      </if>
+      <if test="record.critical != null">
+        critical = #{record.critical,jdbcType=INTEGER},
+      </if>
+      <if test="record.atkSpeed != null">
+        atk_speed = #{record.atkSpeed,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update gd_player
+    set id = #{record.id,jdbcType=BIGINT},
+      player_id = #{record.playerId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      res_name = #{record.resName,jdbcType=VARCHAR},
+      res_name_gun = #{record.resNameGun,jdbcType=VARCHAR},
+      hp = #{record.hp,jdbcType=INTEGER},
+      atk = #{record.atk,jdbcType=INTEGER},
+      def = #{record.def,jdbcType=INTEGER},
+      critical = #{record.critical,jdbcType=INTEGER},
+      atk_speed = #{record.atkSpeed,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.choi.backend.mbg.model.GdPlayer">
+    update gd_player
+    <set>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="resName != null">
+        res_name = #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="resNameGun != null">
+        res_name_gun = #{resNameGun,jdbcType=VARCHAR},
+      </if>
+      <if test="hp != null">
+        hp = #{hp,jdbcType=INTEGER},
+      </if>
+      <if test="atk != null">
+        atk = #{atk,jdbcType=INTEGER},
+      </if>
+      <if test="def != null">
+        def = #{def,jdbcType=INTEGER},
+      </if>
+      <if test="critical != null">
+        critical = #{critical,jdbcType=INTEGER},
+      </if>
+      <if test="atkSpeed != null">
+        atk_speed = #{atkSpeed,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.choi.backend.mbg.model.GdPlayer">
+    update gd_player
+    set player_id = #{playerId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      res_name = #{resName,jdbcType=VARCHAR},
+      res_name_gun = #{resNameGun,jdbcType=VARCHAR},
+      hp = #{hp,jdbcType=INTEGER},
+      atk = #{atk,jdbcType=INTEGER},
+      def = #{def,jdbcType=INTEGER},
+      critical = #{critical,jdbcType=INTEGER},
+      atk_speed = #{atkSpeed,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

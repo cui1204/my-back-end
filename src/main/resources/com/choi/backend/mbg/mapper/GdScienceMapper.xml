@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.choi.backend.mbg.mapper.GdScienceMapper">
+  <resultMap id="BaseResultMap" type="com.choi.backend.mbg.model.GdScience">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="science_id" jdbcType="INTEGER" property="scienceId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="stage" jdbcType="INTEGER" property="stage" />
+    <result column="science_attributes" jdbcType="VARCHAR" property="scienceAttributes" />
+    <result column="opening_condition" jdbcType="INTEGER" property="openingCondition" />
+    <result column="item_cost" jdbcType="VARCHAR" property="itemCost" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, science_id, name, stage, science_attributes, opening_condition, item_cost
+  </sql>
+  <select id="selectByExample" parameterType="com.choi.backend.mbg.model.GdScienceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gd_science
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gd_science
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gd_science
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.choi.backend.mbg.model.GdScienceExample">
+    delete from gd_science
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.choi.backend.mbg.model.GdScience">
+    insert into gd_science (id, science_id, name, 
+      stage, science_attributes, opening_condition, 
+      item_cost)
+    values (#{id,jdbcType=INTEGER}, #{scienceId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{stage,jdbcType=INTEGER}, #{scienceAttributes,jdbcType=VARCHAR}, #{openingCondition,jdbcType=INTEGER}, 
+      #{itemCost,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.choi.backend.mbg.model.GdScience">
+    insert into gd_science
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="scienceId != null">
+        science_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="stage != null">
+        stage,
+      </if>
+      <if test="scienceAttributes != null">
+        science_attributes,
+      </if>
+      <if test="openingCondition != null">
+        opening_condition,
+      </if>
+      <if test="itemCost != null">
+        item_cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="scienceId != null">
+        #{scienceId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=INTEGER},
+      </if>
+      <if test="scienceAttributes != null">
+        #{scienceAttributes,jdbcType=VARCHAR},
+      </if>
+      <if test="openingCondition != null">
+        #{openingCondition,jdbcType=INTEGER},
+      </if>
+      <if test="itemCost != null">
+        #{itemCost,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.choi.backend.mbg.model.GdScienceExample" resultType="java.lang.Long">
+    select count(*) from gd_science
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update gd_science
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.scienceId != null">
+        science_id = #{record.scienceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=INTEGER},
+      </if>
+      <if test="record.scienceAttributes != null">
+        science_attributes = #{record.scienceAttributes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openingCondition != null">
+        opening_condition = #{record.openingCondition,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemCost != null">
+        item_cost = #{record.itemCost,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update gd_science
+    set id = #{record.id,jdbcType=INTEGER},
+      science_id = #{record.scienceId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      stage = #{record.stage,jdbcType=INTEGER},
+      science_attributes = #{record.scienceAttributes,jdbcType=VARCHAR},
+      opening_condition = #{record.openingCondition,jdbcType=INTEGER},
+      item_cost = #{record.itemCost,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.choi.backend.mbg.model.GdScience">
+    update gd_science
+    <set>
+      <if test="scienceId != null">
+        science_id = #{scienceId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        stage = #{stage,jdbcType=INTEGER},
+      </if>
+      <if test="scienceAttributes != null">
+        science_attributes = #{scienceAttributes,jdbcType=VARCHAR},
+      </if>
+      <if test="openingCondition != null">
+        opening_condition = #{openingCondition,jdbcType=INTEGER},
+      </if>
+      <if test="itemCost != null">
+        item_cost = #{itemCost,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.choi.backend.mbg.model.GdScience">
+    update gd_science
+    set science_id = #{scienceId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      stage = #{stage,jdbcType=INTEGER},
+      science_attributes = #{scienceAttributes,jdbcType=VARCHAR},
+      opening_condition = #{openingCondition,jdbcType=INTEGER},
+      item_cost = #{itemCost,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

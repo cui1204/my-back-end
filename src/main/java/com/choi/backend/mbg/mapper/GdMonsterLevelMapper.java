@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdMonsterLevel;
 import com.choi.backend.mbg.model.GdMonsterLevelExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdMonsterLevelMapper {
     long countByExample(GdMonsterLevelExample example);
 

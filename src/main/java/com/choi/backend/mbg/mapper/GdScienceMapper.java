@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdScience;
 import com.choi.backend.mbg.model.GdScienceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdScienceMapper {
     long countByExample(GdScienceExample example);
 

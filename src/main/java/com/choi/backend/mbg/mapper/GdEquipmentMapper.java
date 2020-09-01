@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdEquipment;
 import com.choi.backend.mbg.model.GdEquipmentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdEquipmentMapper {
     long countByExample(GdEquipmentExample example);
 

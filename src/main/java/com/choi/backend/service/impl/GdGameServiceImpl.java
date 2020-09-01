@@ -31,7 +31,7 @@ public class GdGameServiceImpl implements GdGameService {
     @Autowired
     private GdItemsMapper gdItemsMapper;
     @Autowired
-    private GdBagItemsMapper gdBagItemsMapper;
+    private GdUserBagMapper gdUserBagMapper;
     @Autowired
     private GdEquipmentMapper gdEquipmentMapper;
     @Autowired
@@ -218,12 +218,12 @@ public class GdGameServiceImpl implements GdGameService {
 
 
     @Override
-    public List<GdBagItems> listBagItemsAll() {
-        GdBagItemsExample example = new GdBagItemsExample();
-        example.createCriteria().andIdIsNotNull();
-        List<GdBagItems> bagItemsList = gdBagItemsMapper.selectByExample(example);
-        if (bagItemsList != null) {
-            return bagItemsList;
+    public GdUserBag getUserBag(String username) {
+        GdUserBagExample example = new GdUserBagExample();
+        example.createCriteria().andUsernameEqualTo(username);
+        List<GdUserBag> userBagList = gdUserBagMapper.selectByExample(example);
+        if (userBagList != null&& userBagList.size() > 0) {
+            return userBagList.get(0);
         }
         return null;
     }

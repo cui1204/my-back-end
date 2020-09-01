@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdLevel;
 import com.choi.backend.mbg.model.GdLevelExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdLevelMapper {
     long countByExample(GdLevelExample example);
 

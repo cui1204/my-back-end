@@ -38,8 +38,7 @@ public class UmsAdminController {
     public CommonResult<UmsAdmin> register(@RequestBody UmsAdmin umsAdminParam, BindingResult result) {
         UmsAdmin umsAdmin = adminService.register(umsAdminParam);
         if (umsAdmin == null) {
-            //TODO 跳转到登录
-            CommonResult.failed();
+            return CommonResult.failed();
         }
         return CommonResult.success(umsAdmin);
     }

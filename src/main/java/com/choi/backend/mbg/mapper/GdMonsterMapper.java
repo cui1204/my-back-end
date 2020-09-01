@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdMonster;
 import com.choi.backend.mbg.model.GdMonsterExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdMonsterMapper {
     long countByExample(GdMonsterExample example);
 

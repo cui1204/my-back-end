@@ -3,13 +3,14 @@
 <mapper namespace="com.choi.backend.mbg.mapper.GdUserMapper">
   <resultMap id="BaseResultMap" type="com.choi.backend.mbg.model.GdUser">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="player" jdbcType="INTEGER" property="player" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="glod" jdbcType="INTEGER" property="glod" />
+    <result column="hp" jdbcType="INTEGER" property="hp" />
+    <result column="mp" jdbcType="INTEGER" property="mp" />
+    <result column="logout_time" jdbcType="TIMESTAMP" property="logoutTime" />
+    <result column="schedule" jdbcType="TIMESTAMP" property="schedule" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, username, password, icon, nick_name, create_time, login_time
+    id, username, player, level, glod, hp, mp, logout_time, schedule
   </sql>
   <select id="selectByExample" parameterType="com.choi.backend.mbg.model.GdUserExample" resultMap="BaseResultMap">
     select
@@ -104,12 +105,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.choi.backend.mbg.model.GdUser">
-    insert into gd_user (id, user_id, username, 
-      password, icon, nick_name, 
-      create_time, login_time)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP})
+    insert into gd_user (id, username, player, 
+      level, glod, hp, mp, 
+      logout_time, schedule)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{player,jdbcType=INTEGER}, 
+      #{level,jdbcType=INTEGER}, #{glod,jdbcType=INTEGER}, #{hp,jdbcType=INTEGER}, #{mp,jdbcType=INTEGER}, 
+      #{logoutTime,jdbcType=TIMESTAMP}, #{schedule,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.choi.backend.mbg.model.GdUser">
     insert into gd_user
@@ -117,52 +118,58 @@
       <if test="id != null">
         id,
       </if>
-      <if test="userId != null">
-        user_id,
-      </if>
       <if test="username != null">
         username,
       </if>
-      <if test="password != null">
-        password,
+      <if test="player != null">
+        player,
       </if>
-      <if test="icon != null">
-        icon,
+      <if test="level != null">
+        level,
       </if>
-      <if test="nickName != null">
-        nick_name,
+      <if test="glod != null">
+        glod,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="hp != null">
+        hp,
       </if>
-      <if test="loginTime != null">
-        login_time,
+      <if test="mp != null">
+        mp,
+      </if>
+      <if test="logoutTime != null">
+        logout_time,
+      </if>
+      <if test="schedule != null">
+        schedule,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="player != null">
+        #{player,jdbcType=INTEGER},
       </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
       </if>
-      <if test="nickName != null">
-        #{nickName,jdbcType=VARCHAR},
+      <if test="glod != null">
+        #{glod,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="hp != null">
+        #{hp,jdbcType=INTEGER},
       </if>
-      <if test="loginTime != null">
-        #{loginTime,jdbcType=TIMESTAMP},
+      <if test="mp != null">
+        #{mp,jdbcType=INTEGER},
+      </if>
+      <if test="logoutTime != null">
+        #{logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schedule != null">
+        #{schedule,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -178,26 +185,29 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.player != null">
+        player = #{record.player,jdbcType=INTEGER},
       </if>
-      <if test="record.icon != null">
-        icon = #{record.icon,jdbcType=VARCHAR},
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
       </if>
-      <if test="record.nickName != null">
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      <if test="record.glod != null">
+        glod = #{record.glod,jdbcType=INTEGER},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.hp != null">
+        hp = #{record.hp,jdbcType=INTEGER},
       </if>
-      <if test="record.loginTime != null">
-        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      <if test="record.mp != null">
+        mp = #{record.mp,jdbcType=INTEGER},
+      </if>
+      <if test="record.logoutTime != null">
+        logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schedule != null">
+        schedule = #{record.schedule,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -207,13 +217,14 @@
   <update id="updateByExample" parameterType="map">
     update gd_user
     set id = #{record.id,jdbcType=BIGINT},
-      user_id = #{record.userId,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      icon = #{record.icon,jdbcType=VARCHAR},
-      nick_name = #{record.nickName,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      login_time = #{record.loginTime,jdbcType=TIMESTAMP}
+      player = #{record.player,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=INTEGER},
+      glod = #{record.glod,jdbcType=INTEGER},
+      hp = #{record.hp,jdbcType=INTEGER},
+      mp = #{record.mp,jdbcType=INTEGER},
+      logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
+      schedule = #{record.schedule,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,39 +232,43 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.choi.backend.mbg.model.GdUser">
     update gd_user
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="player != null">
+        player = #{player,jdbcType=INTEGER},
       </if>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
       </if>
-      <if test="nickName != null">
-        nick_name = #{nickName,jdbcType=VARCHAR},
+      <if test="glod != null">
+        glod = #{glod,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="hp != null">
+        hp = #{hp,jdbcType=INTEGER},
       </if>
-      <if test="loginTime != null">
-        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      <if test="mp != null">
+        mp = #{mp,jdbcType=INTEGER},
+      </if>
+      <if test="logoutTime != null">
+        logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schedule != null">
+        schedule = #{schedule,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.choi.backend.mbg.model.GdUser">
     update gd_user
-    set user_id = #{userId,jdbcType=INTEGER},
-      username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      icon = #{icon,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      login_time = #{loginTime,jdbcType=TIMESTAMP}
+    set username = #{username,jdbcType=VARCHAR},
+      player = #{player,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      glod = #{glod,jdbcType=INTEGER},
+      hp = #{hp,jdbcType=INTEGER},
+      mp = #{mp,jdbcType=INTEGER},
+      logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+      schedule = #{schedule,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdMap;
 import com.choi.backend.mbg.model.GdMapExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdMapMapper {
     long countByExample(GdMapExample example);
 

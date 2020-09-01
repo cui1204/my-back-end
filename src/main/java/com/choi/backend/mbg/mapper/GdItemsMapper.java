@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdItems;
 import com.choi.backend.mbg.model.GdItemsExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdItemsMapper {
     long countByExample(GdItemsExample example);
 

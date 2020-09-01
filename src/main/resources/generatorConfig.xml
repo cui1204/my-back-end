@@ -133,7 +133,7 @@
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>
-        <table tableName="gd_bag_items" domainObjectName="GdBagItems"
+        <table tableName="gd_user_bag" domainObjectName="GdUserBag"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

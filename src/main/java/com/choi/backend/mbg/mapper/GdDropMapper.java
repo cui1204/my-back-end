@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdDrop;
 import com.choi.backend.mbg.model.GdDropExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdDropMapper {
     long countByExample(GdDropExample example);
 

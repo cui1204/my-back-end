@@ -2,17 +2,22 @@ package com.choi.backend.controller;
 
 import com.choi.backend.common.api.CommonPage;
 import com.choi.backend.common.api.CommonResult;
+import com.choi.backend.common.utils.JwtTokenUtil;
 import com.choi.backend.mbg.model.*;
 import com.choi.backend.service.GdGameService;
+import com.choi.backend.service.UmsAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,19 +27,91 @@ import java.util.Map;
 @Api(tags = "GdGameController", description = "游戏管理")
 @RequestMapping("/game")
 public class GdGameController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GdGameController.class);
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private UmsAdminService adminService;
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+
     @Autowired
     private GdGameService gdGameService;
 
-    @ApiOperation(value = "获取用户信息")
-    @RequestMapping(value = "/userinfo/{username}", method = RequestMethod.GET)
+
+    @ApiOperation(value = "游戏用户注册,如果已存在，直接登录，返回token")
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult getUserInfo(@PathVariable String username) {
+    public CommonResult registerAndLogin(@RequestBody UmsAdmin umsAdminParam, BindingResult result) {
+        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+        if (umsAdmin == null) {
+            LOGGER.info("用户:{} 已存在，直接登录", umsAdminParam.getUsername());
+//            return CommonResult.failed();
+        }
+
+        String token = adminService.login(umsAdminParam.getUsername(), umsAdminParam.getPassword());
+        if (token == null) {
+            return CommonResult.validateFailed("未取得用户名或密码");
+        }
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", tokenHead);
+        return CommonResult.success(tokenMap);
+//        return CommonResult.success(umsAdmin);
+    }
+
+    @ApiOperation(value = "获取用户信息")
+    @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getUserInfo(HttpServletRequest request) {
+        String authHeader = request.getHeader(this.tokenHeader);
+        if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
+            String authToken = authHeader.substring(this.tokenHead.length());// The part after "Bearer "
+            String username = jwtTokenUtil.getUserNameFromToken(authToken);
+            LOGGER.info("检查用户名 username:{}", username);
+            if (username != null ) {
+                UmsAdmin umsAdmin = adminService.getAdminByUsername(username);
+                if (umsAdmin == null) {
+                    LOGGER.info("获取用户信息时未能查询到数据 username:{}", username);
+                    return CommonResult.validateFailed("获取用户信息时未能查询到数据！");
+                }
+                return CommonResult.success(umsAdmin);
+            }
+        }
+        return CommonResult.validateFailed("获取用户信息时未取得token！");
+//        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+//        if (umsAdmin == null) {
+//            LOGGER.info("用户:{} 已存在，直接登录", umsAdminParam.getUsername());
+////            return CommonResult.failed();
+//        }
+//
+//        String token = adminService.login(umsAdminParam.getUsername(), umsAdminParam.getPassword());
+//        if (token == null) {
+//            return CommonResult.validateFailed("未取得用户名或密码");
+//        }
+//        Map<String, String> tokenMap = new HashMap<>();
+//        tokenMap.put("token", token);
+//        tokenMap.put("tokenHead", tokenHead);
+//        return CommonResult.success(tokenMap);
+////        return CommonResult.success(umsAdmin);
+    }
+
+
+    @ApiOperation(value = "获取用户信息")
+    @RequestMapping(value = "/usergameinfo/{username}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getUserGameInfo(@PathVariable String username) {
 //        String username = principal.getName();
         GdUser gdUser = gdGameService.getByUsername(username);
         Map<String, Object> data = new HashMap<>();
-        data.put("userId", gdUser.getUserId());
+
         data.put("username", gdUser.getUsername());
-        data.put("icon", gdUser.getIcon());
+
 
         return CommonResult.success(data);
     }
@@ -254,12 +331,16 @@ public class GdGameController {
         return CommonResult.success(CommonPage.restPage(itemList));
     }
 
-    @ApiOperation(value = "获取bag item数据")
-    @RequestMapping(value = "/bagitems", method = RequestMethod.GET)
+    @ApiOperation(value = "获取userbag 数据")
+    @RequestMapping(value = "/userbag/{username}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getBagItems() {
-        List<GdBagItems> list = gdGameService.listBagItemsAll();
-        return CommonResult.success(CommonPage.restPage(list));
+    public CommonResult getUserBag(@PathVariable String username) {
+        GdUserBag gdUserBag = gdGameService.getUserBag(username);
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", gdUserBag.getUsername());
+        data.put("items", gdUserBag.getItems());
+
+        return CommonResult.success(data);
     }
 
     @ApiOperation(value = "获取equipment数据")

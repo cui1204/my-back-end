@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdPlayer;
 import com.choi.backend.mbg.model.GdPlayerExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdPlayerMapper {
     long countByExample(GdPlayerExample example);
 

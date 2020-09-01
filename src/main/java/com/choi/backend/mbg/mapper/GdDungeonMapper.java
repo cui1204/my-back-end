@@ -4,9 +4,7 @@ import com.choi.backend.mbg.model.GdDungeon;
 import com.choi.backend.mbg.model.GdDungeonExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface GdDungeonMapper {
     long countByExample(GdDungeonExample example);
 

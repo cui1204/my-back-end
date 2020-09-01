@@ -4,9 +4,8 @@ import com.choi.backend.mbg.model.GdUser;
 import com.choi.backend.mbg.model.GdUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+
 public interface GdUserMapper {
     long countByExample(GdUserExample example);
 

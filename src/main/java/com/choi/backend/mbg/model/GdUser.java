@@ -7,20 +7,29 @@ import java.util.Date;
 public class GdUser implements Serializable {
     private Long id;
 
-    private Integer userId;
-
     @ApiModelProperty(value = "用户名")
     private String username;
 
-    private String password;
+    @ApiModelProperty(value = "角色索引")
+    private Integer player;
 
-    private String icon;
+    @ApiModelProperty(value = "等级")
+    private Integer level;
 
-    private String nickName;
+    @ApiModelProperty(value = "金钱")
+    private Integer glod;
 
-    private Date createTime;
+    @ApiModelProperty(value = "血量")
+    private Integer hp;
 
-    private Date loginTime;
+    @ApiModelProperty(value = "魔法值")
+    private Integer mp;
+
+    @ApiModelProperty(value = "退出时间")
+    private Date logoutTime;
+
+    @ApiModelProperty(value = "游戏进度")
+    private Date schedule;
 
     private static final long serialVersionUID = 1L;
 
@@ -32,14 +41,6 @@ public class GdUser implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -48,44 +49,60 @@ public class GdUser implements Serializable {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getPlayer() {
+        return player;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPlayer(Integer player) {
+        this.player = player;
     }
 
-    public String getIcon() {
-        return icon;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
-    public String getNickName() {
-        return nickName;
+    public Integer getGlod() {
+        return glod;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setGlod(Integer glod) {
+        this.glod = glod;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Integer getHp() {
+        return hp;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setHp(Integer hp) {
+        this.hp = hp;
     }
 
-    public Date getLoginTime() {
-        return loginTime;
+    public Integer getMp() {
+        return mp;
     }
 
-    public void setLoginTime(Date loginTime) {
-        this.loginTime = loginTime;
+    public void setMp(Integer mp) {
+        this.mp = mp;
+    }
+
+    public Date getLogoutTime() {
+        return logoutTime;
+    }
+
+    public void setLogoutTime(Date logoutTime) {
+        this.logoutTime = logoutTime;
+    }
+
+    public Date getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Date schedule) {
+        this.schedule = schedule;
     }
 
     @Override
@@ -95,13 +112,14 @@ public class GdUser implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
         sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", icon=").append(icon);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", loginTime=").append(loginTime);
+        sb.append(", player=").append(player);
+        sb.append(", level=").append(level);
+        sb.append(", glod=").append(glod);
+        sb.append(", hp=").append(hp);
+        sb.append(", mp=").append(mp);
+        sb.append(", logoutTime=").append(logoutTime);
+        sb.append(", schedule=").append(schedule);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

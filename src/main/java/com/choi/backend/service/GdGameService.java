@@ -81,9 +81,9 @@ public interface GdGameService {
 
 
     /**
-     * 获取bagitems
+     * 获取bag
      */
-    List<GdBagItems> listBagItemsAll();
+    GdUserBag getUserBag(String username);
 
 
     /**

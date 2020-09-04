@@ -3,10 +3,12 @@ package com.choi.backend.service.impl;
 import com.choi.backend.mbg.mapper.*;
 import com.choi.backend.mbg.model.*;
 import com.choi.backend.service.GdGameService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,7 +40,40 @@ public class GdGameServiceImpl implements GdGameService {
     private GdScienceMapper gdScienceMapper;
 
     @Override
-    public GdUser getByUsername(String username) {
+    public GdUser createGameUser(String username) {
+        GdUser gdUser = new GdUser();
+        gdUser.setUsername(username);
+        gdUser.setLogoutTime(new Date());
+        gdUserMapper.insert(gdUser);
+        return gdUser;
+    }
+
+    @Override
+    public GdUser setGameUserLogoutTime(String username) {
+        GdUser gdUser = this.getGameUserByUsername(username);
+        gdUser.setLogoutTime(new Date());
+        gdUserMapper.updateByPrimaryKey(gdUser);
+        return gdUser;
+    }
+
+    @Override
+    public GdUser updateGameUser(GdUser gdUserParam) {
+        GdUser gdUser = new GdUser();
+        BeanUtils.copyProperties(gdUserParam,gdUser);
+
+        GdUserExample example = new GdUserExample();
+        example.createCriteria().andUsernameEqualTo(gdUser.getUsername());
+        List<GdUser> gdUsersList = gdUserMapper.selectByExample(example);
+        if (gdUsersList== null || gdUsersList.size() <= 0) {
+            return null;
+        }
+//        gdUserMapper.updateByPrimaryKey(gdUser);
+        gdUserMapper.updateByExampleSelective(gdUser,example);
+        return gdUser;
+    }
+
+    @Override
+    public GdUser getGameUserByUsername(String username) {
         GdUserExample example = new GdUserExample();
         example.createCriteria().andUsernameEqualTo(username);
 //        example.createCriteria().andUsernameEqualTo(username);
@@ -226,6 +261,24 @@ public class GdGameServiceImpl implements GdGameService {
             return userBagList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public GdUserBag updateUserBag(GdUserBag gdUserBagParam) {
+        GdUserBag gdUserBag = new GdUserBag();
+        BeanUtils.copyProperties(gdUserBagParam,gdUserBag);
+
+        GdUserBagExample example = new GdUserBagExample();
+        example.createCriteria().andUsernameEqualTo(gdUserBagParam.getUsername());
+
+        List<GdUserBag> gdUsersBagList = gdUserBagMapper.selectByExample(example);
+        if (gdUsersBagList== null || gdUsersBagList.size() <= 0) {
+            return null;
+        }
+//        gdUserBagMapper.updateByPrimaryKey(gdUserBag);
+        gdUserBagMapper.updateByExampleSelective(gdUserBag,example);
+        return gdUserBag;
+
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.choi.backend.mbg.model.GdUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-
 public interface GdUserMapper {
     long countByExample(GdUserExample example);
 

@@ -6,15 +6,29 @@ import com.choi.backend.mbg.model.*;
 import java.util.List;
 
 public interface GdGameService {
+
+    /**
+     * 首次创建用户游戏数据
+     */
+    GdUser createGameUser(String username);
+
+    GdUser setGameUserLogoutTime(String username);
+    GdUser updateGameUser(GdUser gdUserParam);
+
     /**
      * 根据用户名获取用户
      */
-    GdUser getByUsername(String username);
+    GdUser getGameUserByUsername(String username);
+
     /**
      * 根据用户id获取用户
      */
     GdUser getUserById(int id);
 
+
+    /**
+     * 根据获取player资源数据
+     */
     GdPlayer getPlayerById(int id);
 
     /**
@@ -85,6 +99,10 @@ public interface GdGameService {
      */
     GdUserBag getUserBag(String username);
 
+    /**
+     * 保存bag
+     */
+    GdUserBag updateUserBag(GdUserBag gdUserBagParam);
 
     /**
      * 装备

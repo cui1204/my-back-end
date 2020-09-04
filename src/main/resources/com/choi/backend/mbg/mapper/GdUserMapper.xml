@@ -10,7 +10,7 @@
     <result column="hp" jdbcType="INTEGER" property="hp" />
     <result column="mp" jdbcType="INTEGER" property="mp" />
     <result column="logout_time" jdbcType="TIMESTAMP" property="logoutTime" />
-    <result column="schedule" jdbcType="TIMESTAMP" property="schedule" />
+    <result column="schedule" jdbcType="VARCHAR" property="schedule" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -110,7 +110,7 @@
       logout_time, schedule)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{player,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER}, #{glod,jdbcType=INTEGER}, #{hp,jdbcType=INTEGER}, #{mp,jdbcType=INTEGER}, 
-      #{logoutTime,jdbcType=TIMESTAMP}, #{schedule,jdbcType=TIMESTAMP})
+      #{logoutTime,jdbcType=TIMESTAMP}, #{schedule,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.choi.backend.mbg.model.GdUser">
     insert into gd_user
@@ -169,7 +169,7 @@
         #{logoutTime,jdbcType=TIMESTAMP},
       </if>
       <if test="schedule != null">
-        #{schedule,jdbcType=TIMESTAMP},
+        #{schedule,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -207,7 +207,7 @@
         logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.schedule != null">
-        schedule = #{record.schedule,jdbcType=TIMESTAMP},
+        schedule = #{record.schedule,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -224,7 +224,7 @@
       hp = #{record.hp,jdbcType=INTEGER},
       mp = #{record.mp,jdbcType=INTEGER},
       logout_time = #{record.logoutTime,jdbcType=TIMESTAMP},
-      schedule = #{record.schedule,jdbcType=TIMESTAMP}
+      schedule = #{record.schedule,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -254,7 +254,7 @@
         logout_time = #{logoutTime,jdbcType=TIMESTAMP},
       </if>
       <if test="schedule != null">
-        schedule = #{schedule,jdbcType=TIMESTAMP},
+        schedule = #{schedule,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -268,7 +268,7 @@
       hp = #{hp,jdbcType=INTEGER},
       mp = #{mp,jdbcType=INTEGER},
       logout_time = #{logoutTime,jdbcType=TIMESTAMP},
-      schedule = #{schedule,jdbcType=TIMESTAMP}
+      schedule = #{schedule,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

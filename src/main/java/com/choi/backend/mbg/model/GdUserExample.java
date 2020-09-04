@@ -605,52 +605,62 @@ public class GdUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andScheduleEqualTo(Date value) {
+        public Criteria andScheduleEqualTo(String value) {
             addCriterion("schedule =", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleNotEqualTo(Date value) {
+        public Criteria andScheduleNotEqualTo(String value) {
             addCriterion("schedule <>", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleGreaterThan(Date value) {
+        public Criteria andScheduleGreaterThan(String value) {
             addCriterion("schedule >", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleGreaterThanOrEqualTo(Date value) {
+        public Criteria andScheduleGreaterThanOrEqualTo(String value) {
             addCriterion("schedule >=", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleLessThan(Date value) {
+        public Criteria andScheduleLessThan(String value) {
             addCriterion("schedule <", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleLessThanOrEqualTo(Date value) {
+        public Criteria andScheduleLessThanOrEqualTo(String value) {
             addCriterion("schedule <=", value, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleIn(List<Date> values) {
+        public Criteria andScheduleLike(String value) {
+            addCriterion("schedule like", value, "schedule");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleNotLike(String value) {
+            addCriterion("schedule not like", value, "schedule");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIn(List<String> values) {
             addCriterion("schedule in", values, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleNotIn(List<Date> values) {
+        public Criteria andScheduleNotIn(List<String> values) {
             addCriterion("schedule not in", values, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleBetween(Date value1, Date value2) {
+        public Criteria andScheduleBetween(String value1, String value2) {
             addCriterion("schedule between", value1, value2, "schedule");
             return (Criteria) this;
         }
 
-        public Criteria andScheduleNotBetween(Date value1, Date value2) {
+        public Criteria andScheduleNotBetween(String value1, String value2) {
             addCriterion("schedule not between", value1, value2, "schedule");
             return (Criteria) this;
         }

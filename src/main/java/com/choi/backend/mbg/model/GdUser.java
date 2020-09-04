@@ -29,7 +29,7 @@ public class GdUser implements Serializable {
     private Date logoutTime;
 
     @ApiModelProperty(value = "游戏进度")
-    private Date schedule;
+    private String schedule;
 
     private static final long serialVersionUID = 1L;
 
@@ -97,11 +97,11 @@ public class GdUser implements Serializable {
         this.logoutTime = logoutTime;
     }
 
-    public Date getSchedule() {
+    public String getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Date schedule) {
+    public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
 

@@ -30,6 +30,8 @@ public class GdGameController {
     private static final Logger LOGGER = LoggerFactory.getLogger(GdGameController.class);
 
     @Autowired
+    private GdGameService gdGameService;
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserDetailsService userDetailsService;
@@ -40,32 +42,57 @@ public class GdGameController {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
-    @Autowired
-    private GdGameService gdGameService;
-
-
     @ApiOperation(value = "游戏用户注册,如果已存在，直接登录，返回token")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult registerAndLogin(@RequestBody UmsAdmin umsAdminParam, BindingResult result) {
         UmsAdmin umsAdmin = adminService.register(umsAdminParam);
         if (umsAdmin == null) {
-            LOGGER.info("用户:{} 已存在，直接登录", umsAdminParam.getUsername());
+            LOGGER.info("用户:{} 已存在。", umsAdminParam.getUsername());
 //            return CommonResult.failed();
+        }else{
+            LOGGER.info("新用户:{}。创建用户游戏数据", umsAdminParam.getUsername());
+            gdGameService.createGameUser(umsAdminParam.getUsername());
         }
 
         String token = adminService.login(umsAdminParam.getUsername(), umsAdminParam.getPassword());
         if (token == null) {
             return CommonResult.validateFailed("未取得用户名或密码");
         }
+
+        LOGGER.info("用户:{} 登录。", umsAdminParam.getUsername());
+
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
         return CommonResult.success(tokenMap);
 //        return CommonResult.success(umsAdmin);
     }
+    @ApiOperation(value = "游戏用户登出")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult logout(@RequestBody UmsAdmin umsAdminParam, BindingResult result) {
+//        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
+//        if (umsAdmin == null) {
+//            LOGGER.info("用户:{} 已存在。", umsAdminParam.getUsername());
+////            return CommonResult.failed();
+//        }else{
+//            LOGGER.info("新用户:{}。创建用户游戏数据", umsAdminParam.getUsername());
+//            gdGameService.createGameUser(umsAdminParam.getUsername());
+//        }
+//
+//        String token = adminService.login(umsAdminParam.getUsername(), umsAdminParam.getPassword());
+//        if (token == null) {
+//            return CommonResult.validateFailed("未取得用户名或密码");
+//        }
+        gdGameService.setGameUserLogoutTime(umsAdminParam.getUsername());
+        LOGGER.info("用户:{} 登出。", umsAdminParam.getUsername());
 
-    @ApiOperation(value = "获取用户信息")
+        Map<String, String> data = new HashMap<>();
+//        data.put("token", token);
+        return CommonResult.success(data);
+    }
+    @ApiOperation(value = "获取当前登录的用户信息")
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getUserInfo(HttpServletRequest request) {
@@ -84,37 +111,67 @@ public class GdGameController {
             }
         }
         return CommonResult.validateFailed("获取用户信息时未取得token！");
-//        UmsAdmin umsAdmin = adminService.register(umsAdminParam);
-//        if (umsAdmin == null) {
-//            LOGGER.info("用户:{} 已存在，直接登录", umsAdminParam.getUsername());
-////            return CommonResult.failed();
-//        }
-//
-//        String token = adminService.login(umsAdminParam.getUsername(), umsAdminParam.getPassword());
-//        if (token == null) {
-//            return CommonResult.validateFailed("未取得用户名或密码");
-//        }
-//        Map<String, String> tokenMap = new HashMap<>();
-//        tokenMap.put("token", token);
-//        tokenMap.put("tokenHead", tokenHead);
-//        return CommonResult.success(tokenMap);
-////        return CommonResult.success(umsAdmin);
     }
 
 
-    @ApiOperation(value = "获取用户信息")
-    @RequestMapping(value = "/usergameinfo/{username}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取用户游戏信息")
+    @RequestMapping(value = "/gameuserinfo/{username}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getUserGameInfo(@PathVariable String username) {
+    public CommonResult getGameUserInfo(@PathVariable String username) {
 //        String username = principal.getName();
-        GdUser gdUser = gdGameService.getByUsername(username);
+        GdUser gdUser = gdGameService.getGameUserByUsername(username);
+
         Map<String, Object> data = new HashMap<>();
-
         data.put("username", gdUser.getUsername());
+        data.put("player", gdUser.getPlayer());
+        data.put("level", gdUser.getLevel());
+        data.put("glod", gdUser.getGlod());
+        data.put("hp", gdUser.getHp());
+        data.put("mp", gdUser.getMp());
+        data.put("logoutTime", gdUser.getLogoutTime());
+        data.put("schedule", gdUser.getSchedule());
+        return CommonResult.success(data);
+    }
 
+
+    @ApiOperation(value = "更新用户游戏信息")
+    @RequestMapping(value = "/updategameuser", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateGameUserInfo(@RequestBody GdUser gdUserParam) {
+        //更新游戏用户信息
+        GdUser gdUser = gdGameService.updateGameUser(gdUserParam);
+        if (gdUser == null) {
+            LOGGER.info("游戏用户:{} 未找到。", gdUserParam.getUsername());
+            return CommonResult.failed();
+        }
+
+        //更新登出时间
+        gdGameService.setGameUserLogoutTime(gdUser.getUsername());
+        LOGGER.info("游戏用户:{} 登出时间 {}。", gdUser.getUsername(), gdUser.getLogoutTime());
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", gdUser.getUsername());
 
         return CommonResult.success(data);
     }
+
+    @ApiOperation(value = "更新用户游戏背包")
+    @RequestMapping(value = "/updategameuserbag", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateGameUserBag(@RequestBody GdUserBag gdUserBagParam) {
+        //更新游戏用户信息
+        GdUserBag gdUserBag = gdGameService.updateUserBag(gdUserBagParam);
+        if (gdUserBag == null) {
+            LOGGER.info("游戏用户:{} 的背包数据未找到。", gdUserBagParam.getUsername());
+            return CommonResult.failed();
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", gdUserBag.getUsername());
+
+        return CommonResult.success(data);
+    }
+
 
     @ApiOperation(value = "获取player数据")
     @RequestMapping(value = "/player/{player_id}", method = RequestMethod.GET)
